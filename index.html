@@ -13,101 +13,43 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  margin: 0;
-  overflow:auto;
 }
 
-/* Make the tree responsive */
-.tree {
-  position: relative;
-  width: 100%;
-  max-width: 800px;          /* a bit bigger so it looks like your original */
-  aspect-ratio: 1 / 1;       /* keeps it square */
-}
+.tree { position: relative; width: 1000px; height: 1000px; }
 
-/* center person stays in the middle */
 .center-person {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
-  max-width: 260px;
-  background: #e0f0ff;
-  border: 2px solid #1a73e8;
-  border-radius: 15px;
-  text-align: center;
-  padding: 10px;
-  z-index: 3;
+  width: 220px; background: #e0f0ff;
+  border: 2px solid #1a73e8; border-radius: 15px;
+  text-align: center; padding: 20px; z-index: 3;
   box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
+.center-person img { width: 120px; height: 120px; border-radius: 50%; }
 
-.center-person img {
-  width: 65%;
-  height: auto;
-  border-radius: 50%;
-}
-
-/* wives use percentage sizes so they shrink on small screens */
 .wife {
   position: absolute;
-  width: 26%;
-  max-width: 150px;
+  width: 140px;
   background: #ffe0f0;
   border: 2px solid #e91a63;
   border-radius: 12px;
-  padding: 6px;
+  padding: 10px;
   text-align: center;
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   z-index: 2;
 }
+.wife img { width: 70px; height: 70px; border-radius: 50%; }
+.wife .bio { font-size: 11px; text-align: left; }
 
-.wife img {
-  width: 70%;
-  height: auto;
-  border-radius: 50%;
-}
-
-.wife .bio {
-  font-size: 11px;
-  text-align: left;
-}
-
-/* lines also use percentages */
 .line {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 2px;
+  width: 3px;
   background: #555;
   transform-origin: top center;
   z-index: 1;
-}
-
-/* Small phones: reduce text & box size */
-@media (max-width: 480px) {
-  body {
-    align-items:flex-start;   /* avoid weird vertical centering on very small screens */
-  }
-
-  .tree {
-    max-width: 100%;
-  }
-
-  .center-person {
-    width: 60%;
-    padding: 8px;
-  }
-
-  .wife {
-    width: 32%;
-    padding: 4px;
-  }
-
-  .wife .bio {
-    font-size: 9px;
-  }
 }
 </style>
 </head>
@@ -115,66 +57,63 @@ body {
 
 <div class="tree" id="tree">
   <div class="center-person">
-    <img src="images/alhaji.jpeg" alt="Alhaji Shehu Katcha">
+    <img src="alhaji.jpeg.jpg">
     <h3>ALHAJI SHEHU KATCHA</h3>
     <div class="bio">
       Born: 1915<br>
       Deceased: 1985<br>
-      Teacher &amp; community leader
+      Teacher & community leader
     </div>
   </div>
 </div>
 
 <script>
 const wives = [
-  { name: "Ya Tifen",        born: 1920, img: "images/wife1.jpg" },   // fixed extra .jpg
-  { name: "Ya Giwa",         born: 1921, img: "images/wife2.jpg" },
-  { name: "Ya dare (Aisha)", born: 1922, img: "images/wife3.jpg" },
-  { name: "Hajiya Naku",     born: 1923, img: "images/fatima naku.jpeg" },
-  { name: "Ya Aya",          born: 1924, img: "images/wife5.jpg" },
-  { name: "Ya Uraira",       born: 1925, img: "images/wife6.jpg" },
-  { name: "Hajiya Hassana",  born: 1926, img: "images/nnagihassana.jpeg" },
-  { name: "Hajiya Iya",      born: 1927, img: "images/iya.jpeg" },
-  { name: "Talatu",          born: 1928, img: "images/wife9.jpg" },
-  { name: "Nnagi Waro",      born: 1929, img: "images/Nnagiworo.jpeg" },
-  { name: "Hajiya Rakiya",   born: 1930, img: "images/hajiya rakiya.jpeg" },
-  { name: "Ya Zwade",        born: 1931, img: "images/wife12.jpg" },
-  { name: "Hajiya Yagidi",   born: 1932, img: "images/ya gidi.jpeg" }
+  { name: "Ya Tifen", born: 1920, img: "wife1.jpg.jpg" },
+  { name: "Ya Giwa", born: 1921, img: "wife2.jpg" },
+  { name: "Ya dare (Aisha)", born: 1922, img: "wife3.jpg" },
+  { name: "Hajiya Naku", born: 1923, img: "images/fatima naku.jpeg" },
+  { name: "Ya Aya", born: 1924, img: "wife5.jpg" },
+  { name: "Ya Uraira", born: 1925, img: "wife6.jpg" },
+  { name: "Hajiya Hassana", born: 1926, img: "images/nnagihassana.jpeg" },
+  { name: "Hajiya Iya", born: 1927, img: "images/iya.jpeg" },
+  { name: "Talatu", born: 1928, img: "wife9.jpg" },
+  { name: "Nnagi Waro", born: 1929, img: "images/Nnagiworo.jpeg" },
+  { name: "Hajiya Rakiya", born: 1930, img: "images/hajiya rakiya.jpeg" },
+  { name: "Ya Zwade", born: 1931, img: "wife12.jpg" },
+  { name: "Hajiya Yagidi", born: 1932, img: "images/ya gidi.jpeg" }
 ];
 
 const tree = document.getElementById("tree");
-
-/* radius as percentage of container size so it scales */
-const radiusPercent = 38;   // roughly like your 380px in 1000px
-const centerXPercent = 50;
-const centerYPercent = 50;
+const radius = 380;
+const centerX = 500;
+const centerY = 500;
 
 wives.forEach((wife, i) => {
   const angle = (2 * Math.PI / wives.length) * i - Math.PI / 2;
-
-  const xPercent = centerXPercent + radiusPercent * Math.cos(angle);
-  const yPercent = centerYPercent + radiusPercent * Math.sin(angle);
+  const x = centerX + radius * Math.cos(angle);
+  const y = centerY + radius * Math.sin(angle);
 
   // Line
   const line = document.createElement("div");
   line.className = "line";
-  line.style.height = (radiusPercent - 8) + "%";
+  line.style.height = (radius - 80) + "px";
   line.style.transform = `rotate(${angle * 180 / Math.PI}deg)`;
   tree.appendChild(line);
 
-  // Link to wife page
+  // ✅ FIXED LINK (ONE LINK ONLY)
   const link = document.createElement("a");
   link.href = `wife.html?id=${i + 1}`;
   link.style.position = "absolute";
-  link.style.left = xPercent + "%";
-  link.style.top = yPercent + "%";
+  link.style.left = x + "px";
+  link.style.top = y + "px";
   link.style.textDecoration = "none";
   link.style.color = "inherit";
 
   const div = document.createElement("div");
   div.className = "wife";
   div.innerHTML = `
-    <img src="${wife.img}" alt="${wife.name}">
+    <img src="${wife.img}">
     <h4>${wife.name}</h4>
     <div class="bio">Born: ${wife.born}</div>
   `;
