@@ -14,13 +14,14 @@ body {
   min-height: 100vh;
   padding: 20px;
   margin: 0;
+  overflow:auto;
 }
 
 /* Make the tree responsive */
 .tree {
   position: relative;
   width: 100%;
-  max-width: 600px;          /* fits phones and tablets */
+  max-width: 800px;          /* a bit bigger so it looks like your original */
   aspect-ratio: 1 / 1;       /* keeps it square */
 }
 
@@ -31,7 +32,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
-  max-width: 220px;
+  max-width: 260px;
   background: #e0f0ff;
   border: 2px solid #1a73e8;
   border-radius: 15px;
@@ -51,7 +52,7 @@ body {
 .wife {
   position: absolute;
   width: 26%;
-  max-width: 140px;
+  max-width: 150px;
   background: #ffe0f0;
   border: 2px solid #e91a63;
   border-radius: 12px;
@@ -86,13 +87,21 @@ body {
 
 /* Small phones: reduce text & box size */
 @media (max-width: 480px) {
+  body {
+    align-items:flex-start;   /* avoid weird vertical centering on very small screens */
+  }
+
+  .tree {
+    max-width: 100%;
+  }
+
   .center-person {
-    width: 55%;
+    width: 60%;
     padding: 8px;
   }
 
   .wife {
-    width: 30%;
+    width: 32%;
     padding: 4px;
   }
 
