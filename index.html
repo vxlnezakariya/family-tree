@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grandfather with Wives Radial Tree</title>
+<style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+}
+
+/* Make the tree responsive */
+.tree {
+  position: relative;
+  width: 100%;
+  max-width: 600px;          /* fits phones and tablets */
+  aspect-ratio: 1 / 1;       /* keeps it square */
+}
+
+/* center person stays in the middle */
+.center-person {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  max-width: 220px;
+  background: #e0f0ff;
+  border: 2px solid #1a73e8;
+  border-radius: 15px;
+  text-align: center;
+  padding: 10px;
+  z-index: 3;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.center-person img {
+  width: 65%;
+  height: auto;
+  border-radius: 50%;
+}
+
+/* wives use percentage sizes so they shrink on small screens */
+.wife {
+  position: absolute;
+  width: 26%;
+  max-width: 140px;
+  background: #ffe0f0;
+  border: 2px solid #e91a63;
+  border-radius: 12px;
+  padding: 6px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.wife img {
+  width: 70%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.wife .bio {
+  font-size: 11px;
+  text-align: left;
+}
+
+/* lines also use percentages */
+.line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  background: #555;
+  transform-origin: top center;
+  z-index: 1;
+}
+
+/* Small phones: reduce text & box size */
+@media (max-width: 480px) {
+  .center-person {
+    width: 55%;
+    padding: 8px;
+  }
+
+  .wife {
+    width: 30%;
+    padding: 4px;
+  }
+
+  .wife .bio {
+    font-size: 9px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="tree" id="tree">
+  <div class="center-person">
+    <img src="images/alhaji.jpeg" alt="Alhaji Shehu Katcha">
+    <h3>ALHAJI SHEHU KATCHA</h3>
+    <div class="bio">
+      Born: 1915<br>
+      Deceased: 1985<br>
+      Teacher &amp; community leader
+    </div>
+  </div>
+</div>
+
+<script>
+const wives = [
+  { name: "Ya Tifen",        born: 1920, img: "images/wife1.jpg" },   // fixed extra .jpg
+  { name: "Ya Giwa",         born: 1921, img: "images/wife2.jpg" },
+  { name: "Ya dare (Aisha)", born: 1922, img: "images/wife3.jpg" },
+  { name: "Hajiya Naku",     born: 1923, img: "images/fatima naku.jpeg" },
+  { name: "Ya Aya",          born: 1924, img: "images/wife5.jpg" },
+  { name: "Ya Uraira",       born: 1925, img: "images/wife6.jpg" },
+  { name: "Hajiya Hassana",  born: 1926, img: "images/nnagihassana.jpeg" },
+  { name: "Hajiya Iya",      born: 1927, img: "images/iya.jpeg" },
+  { name: "Talatu",          born: 1928, img: "images/wife9.jpg" },
+  { name: "Nnagi Waro",      born: 1929, img: "images/Nnagiworo.jpeg" },
+  { name: "Hajiya Rakiya",   born: 1930, img: "images/hajiya rakiya.jpeg" },
+  { name: "Ya Zwade",        born: 1931, img: "images/wife12.jpg" },
+  { name: "Hajiya Yagidi",   born: 1932, img: "images/ya gidi.jpeg" }
+];
+
+const tree = document.getElementById("tree");
+
+/* radius as percentage of container size so it scales */
+const radiusPercent = 38;   // roughly like your 380px in 1000px
+const centerXPercent = 50;
+const centerYPercent = 50;
+
+wives.forEach((wife, i) => {
+  const angle = (2 * Math.PI / wives.length) * i - Math.PI / 2;
+
+  const xPercent = centerXPercent + radiusPercent * Math.cos(angle);
+  const yPercent = centerYPercent + radiusPercent * Math.sin(angle);
+
+  // Line
+  const line = document.createElement("div");
+  line.className = "line";
+  line.style.height = (radiusPercent - 8) + "%";
+  line.style.transform = `rotate(${angle * 180 / Math.PI}deg)`;
+  tree.appendChild(line);
+
+  // Link to wife page
+  const link = document.createElement("a");
+  link.href = `wife.html?id=${i + 1}`;
+  link.style.position = "absolute";
+  link.style.left = xPercent + "%";
+  link.style.top = yPercent + "%";
+  link.style.textDecoration = "none";
+  link.style.color = "inherit";
+
+  const div = document.createElement("div");
+  div.className = "wife";
+  div.innerHTML = `
+    <img src="${wife.img}" alt="${wife.name}">
+    <h4>${wife.name}</h4>
+    <div class="bio">Born: ${wife.born}</div>
+  `;
+
+  link.appendChild(div);
+  tree.appendChild(link);
+});
+</script>
+
+</body>
+</html>
